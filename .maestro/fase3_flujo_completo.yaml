@@ -1,0 +1,20 @@
+appId: host.exp.exponent
+---
+# Flujo E2E - Fase 3: Validación y Creación de Tarea
+
+# 1. Confirmar que la app cargó correctamente
+- assertVisible: "Nueva tarea"
+
+# 2. Validar que no se cree una tarea vacía (regla de negocio)
+- tapOn: "Guardar"
+- assertNotVisible: "Tarea creada exitosamente"
+
+# 3. Completar el formulario
+- tapOn:
+    id: "input-titulo"
+- inputText: "E2E"
+
+# 4. Guardar y verificar la confirmación y presencia en la lista
+- tapOn: "Guardar"
+- assertVisible: "Tarea creada exitosamente"
+- assertVisible: "E2E"

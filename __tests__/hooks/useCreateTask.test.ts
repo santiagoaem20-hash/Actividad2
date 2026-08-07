@@ -1,6 +1,6 @@
 import { renderHook, act } from '@testing-library/react-native';
 import { useCreateTask } from '../../src/hooks/useCreateTask';
-import { createTask } from '../../src/services/taskService';
+import { createTask, fetchTasks } from '../../src/services/taskService';
 
 // JUSTIFICACIÓN DE MOCKING:
 // Se aísla el servicio externo 'taskService' mediante jest.mock() para evitar 
@@ -9,10 +9,12 @@ import { createTask } from '../../src/services/taskService';
 jest.mock('../../src/services/taskService');
 
 const mockedCreateTask = createTask as jest.MockedFunction<typeof createTask>;
+const mockedFetchTasks = fetchTasks as jest.MockedFunction<typeof fetchTasks>;
 
 describe('Pruebas de Custom Hook - useCreateTask (Con Mocking)', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    mockedFetchTasks.mockResolvedValue([]);
   });
 
   it('debe manejar la creación exitosa de una tarea transitando por los estados: idle -> loading -> success', async () => {

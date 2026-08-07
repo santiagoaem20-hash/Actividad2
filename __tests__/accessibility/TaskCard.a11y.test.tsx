@@ -4,25 +4,33 @@ import { TaskCard } from '../../src/components/TaskCard';
 
 const mockTask = {
   id: '1',
-  title: 'Estudiar accesibilidad',
+  title: 'Estudiar accesibilidad en React Native',
   status: 'pending' as const,
 };
 
-describe('TaskCard - Accesibilidad', () => {
-  it('el botón de eliminar tiene un accessibilityLabel descriptivo', async () => {
+describe('Accesibilidad - TaskCard', () => {
+  it('el botón de eliminar posee un accessibilityLabel descriptivo para lectores de pantalla', async () => {
     await render(<TaskCard task={mockTask} onDelete={jest.fn()} />);
-    const deleteButton = screen.getByLabelText('Eliminar tarea Estudiar accesibilidad');
+
+    // Verifica que el lector de pantalla encuentre la etiqueta explícita
+    const deleteButton = screen.getByLabelText(
+      'Eliminar tarea Estudiar accesibilidad en React Native'
+    );
     expect(deleteButton).toBeTruthy();
   });
 
-  it('el contenedor de la tarea tiene el rol correcto', async () => {
+  it('el contenedor de la tarjeta tiene asignado el rol accesible adecuado', async () => {
     await render(<TaskCard task={mockTask} onDelete={jest.fn()} />);
+
+    // Verifica que el elemento interactivo exponga el rol de botón a TalkBack/VoiceOver
     const card = screen.getByRole('button');
     expect(card).toBeTruthy();
   });
 
-  it('el estado de la tarea es anunciado al lector de pantalla', async () => {
+  it('anuncia el estado actual de la tarea al lector de pantalla', async () => {
     await render(<TaskCard task={mockTask} onDelete={jest.fn()} />);
-    expect(screen.getByText('○ Pendiente')).toBeTruthy();
+
+    const statusText = screen.getByText('○ Pendiente');
+    expect(statusText).toBeTruthy();
   });
 });

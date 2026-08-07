@@ -36,8 +36,26 @@ describe('Servicio - taskService', () => {
   describe('createTask()', () => {
     it('debe retornar un objeto Task válido con estado pending e ID generado', async () => {
       const title = 'Tarea de prueba local';
+      const mockCreatedTask: Task = {
+        id: '123-abc',
+        title: 'Tarea de prueba local',
+        status: 'pending',
+      };
+
+      // Se agrega el mock de fetch para la petición POST de creación
+      global.fetch = jest.fn().mockResolvedValueOnce({
+        ok: true,
+        json: jest.fn().mockResolvedValueOnce(mockCreatedTask),
+      });
 
       const result = await createTask(title);
+
+      expect(global.fetch).toHaveBeenCalledWith(
+        'https://api.taskmanager.com/tasks',
+        expect.objectContaining({
+          method: 'POST',
+        })
+      );
 
       expect(result).toEqual({
         id: expect.any(String),

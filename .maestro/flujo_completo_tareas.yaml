@@ -1,10 +1,9 @@
-appId: com.taskmanager.app
+appId: host.exp.exponent
 ---
-# 1. Abrir la app y verificar la pantalla principal
-- launchApp
+# 1. Verificar la pantalla principal cargada
 - assertVisible: "Nueva tarea"
 
-# 2. Intentar guardar vacío no muestra confirmación
+# 2. Intentar guardar vacío
 - tapOn: "Guardar"
 - assertNotVisible: "Tarea creada exitosamente"
 
